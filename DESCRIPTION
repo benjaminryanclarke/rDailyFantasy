@@ -1,0 +1,36 @@
+Package: rDailyFantasy
+Title: Provides Tools For Daily Fantasy Sports
+Version: 0.0.0.9000
+Authors@R: as.person(c("Benjamin Clarke <benjaminryanclarke@icloud.com> [aut,cre]"))
+Description: Provides tools(functions) to assist in daily fantasy analysis
+    focusing primarily on Draftkings contests and data with help from FantasyLabs
+Depends:
+    R (>= 3.3.2)
+Imports:
+    caret (>= 6.0-77),
+    doParallel (>= 1.0.1.1),
+    doSNOW (>= 1.0.16),
+    dplyr (>= 0.7.4),
+    foreach (>= 1.4.3),
+    ggplot2 (>= 2.2.1),
+    jsonlite (>= 1.5),
+    lubridate (>= 1.7.1),
+    qdapRegex (>= 0.7.2),
+    rapportools (>= 1.0),
+    RSelenium (>= 1.7.1),
+    rapportools (>= 1.0),
+    rvest (>= 0.3.2),
+    snow (>= 0.4-2),
+    tidyr (>= 0.7.2),
+    wdman (>= 0.2.2),
+    XML (>= 3.98-1.9),
+    xml2 (>= 1.1.1)
+Suggests:
+    htmltools (>= 0.3.6),
+    httr (>= 1.3.1),
+    MASS (>= 7.3-47),
+    RCurl (>= 1.95-4.8)
+License: CCo
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1
