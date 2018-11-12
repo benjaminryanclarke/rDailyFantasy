@@ -5,8 +5,8 @@
 \title{pga Model Import Function}
 \usage{
 pgaModelSetup(modelDate = "3_4_2018", pastEvent = FALSE,
-  labModel = "WGCBridgestone", postRefresh = NULL, parallelRun = FALSE,
-  cookie = pgaCookies)
+  labModel = "WGCBridgestone", postRefresh = NULL,
+  parallelRun = FALSE, cookie = pgaCookies)
 }
 \arguments{
 \item{modelDate}{"m_d_yyyy"}

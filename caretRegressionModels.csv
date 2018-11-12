@@ -1,0 +1,291 @@
+"","model","parameter","label","forReg","forClass","probModel"
+"12","ANFIS","num.labels","#Fuzzy Terms",TRUE,FALSE,FALSE
+"13","ANFIS","max.iter","Max. Iterations",TRUE,FALSE,FALSE
+"14","avNNet","size","#Hidden Units",TRUE,TRUE,TRUE
+"15","avNNet","decay","Weight Decay",TRUE,TRUE,TRUE
+"16","avNNet","bag","Bagging",TRUE,TRUE,TRUE
+"20","bag","vars","#Randomly Selected Predictors",TRUE,TRUE,TRUE
+"21","bagEarth","nprune","#Terms",TRUE,TRUE,TRUE
+"22","bagEarth","degree","Product Degree",TRUE,TRUE,TRUE
+"23","bagEarthGCV","degree","Product Degree",TRUE,TRUE,TRUE
+"27","bam","select","Feature Selection",TRUE,TRUE,TRUE
+"28","bam","method","Method",TRUE,TRUE,TRUE
+"29","bartMachine","num_trees","#Trees",TRUE,TRUE,TRUE
+"30","bartMachine","k","Prior Boundary",TRUE,TRUE,TRUE
+"31","bartMachine","alpha","Base Terminal Node Hyperparameter",TRUE,TRUE,TRUE
+"32","bartMachine","beta","Power Terminal Node Hyperparameter",TRUE,TRUE,TRUE
+"33","bartMachine","nu","Degrees of Freedom",TRUE,TRUE,TRUE
+"34","bayesglm","parameter","parameter",TRUE,TRUE,TRUE
+"36","blackboost","mstop","#Trees",TRUE,TRUE,TRUE
+"37","blackboost","maxdepth","Max Tree Depth",TRUE,TRUE,TRUE
+"38","blasso","sparsity","Sparsity Threshold",TRUE,FALSE,FALSE
+"39","blassoAveraged","parameter","parameter",TRUE,FALSE,FALSE
+"40","bridge","parameter","parameter",TRUE,FALSE,FALSE
+"41","brnn","neurons","# Neurons",TRUE,FALSE,FALSE
+"42","BstLm","mstop","# Boosting Iterations",TRUE,TRUE,FALSE
+"43","BstLm","nu","Shrinkage",TRUE,TRUE,FALSE
+"44","bstSm","mstop","# Boosting Iterations",TRUE,TRUE,FALSE
+"45","bstSm","nu","Shrinkage",TRUE,TRUE,FALSE
+"46","bstTree","mstop","# Boosting Iterations",TRUE,TRUE,FALSE
+"47","bstTree","maxdepth","Max Tree Depth",TRUE,TRUE,FALSE
+"48","bstTree","nu","Shrinkage",TRUE,TRUE,FALSE
+"58","cforest","mtry","#Randomly Selected Predictors",TRUE,TRUE,TRUE
+"63","ctree","mincriterion","1 - P-Value Threshold",TRUE,TRUE,TRUE
+"64","ctree2","maxdepth","Max Tree Depth",TRUE,TRUE,TRUE
+"65","ctree2","mincriterion","1 - P-Value Threshold",TRUE,TRUE,TRUE
+"66","cubist","committees","#Committees",TRUE,FALSE,FALSE
+"67","cubist","neighbors","#Instances",TRUE,FALSE,FALSE
+"75","DENFIS","Dthr","Threshold",TRUE,FALSE,FALSE
+"76","DENFIS","max.iter","Max. Iterations",TRUE,FALSE,FALSE
+"77","dnn","layer1","Hidden Layer 1",TRUE,TRUE,TRUE
+"78","dnn","layer2","Hidden Layer 2",TRUE,TRUE,TRUE
+"79","dnn","layer3","Hidden Layer 3",TRUE,TRUE,TRUE
+"80","dnn","hidden_dropout","Hidden Dropouts",TRUE,TRUE,TRUE
+"81","dnn","visible_dropout","Visible Dropout",TRUE,TRUE,TRUE
+"91","earth","nprune","#Terms",TRUE,TRUE,TRUE
+"92","earth","degree","Product Degree",TRUE,TRUE,TRUE
+"93","elm","nhid","#Hidden Units",TRUE,TRUE,FALSE
+"94","elm","actfun","Activation Function",TRUE,TRUE,FALSE
+"95","enet","fraction","Fraction of Full Solution",TRUE,FALSE,FALSE
+"96","enet","lambda","Weight Decay",TRUE,FALSE,FALSE
+"97","evtree","alpha","Complexity Parameter",TRUE,TRUE,TRUE
+"98","extraTrees","mtry","# Randomly Selected Predictors",TRUE,TRUE,TRUE
+"99","extraTrees","numRandomCuts","# Random Cuts",TRUE,TRUE,TRUE
+"105","FIR.DM","num.labels","#Fuzzy Terms",TRUE,FALSE,FALSE
+"106","FIR.DM","max.iter","Max. Iterations",TRUE,FALSE,FALSE
+"107","foba","k","#Variables Retained",TRUE,FALSE,FALSE
+"108","foba","lambda","L2 Penalty",TRUE,FALSE,FALSE
+"113","FS.HGD","num.labels","#Fuzzy Terms",TRUE,FALSE,FALSE
+"114","FS.HGD","max.iter","Max. Iterations",TRUE,FALSE,FALSE
+"115","gam","select","Feature Selection",TRUE,TRUE,TRUE
+"116","gam","method","Method",TRUE,TRUE,TRUE
+"117","gamboost","mstop","# Boosting Iterations",TRUE,TRUE,TRUE
+"118","gamboost","prune","AIC Prune?",TRUE,TRUE,TRUE
+"119","gamLoess","span","Span",TRUE,TRUE,TRUE
+"120","gamLoess","degree","Degree",TRUE,TRUE,TRUE
+"121","gamSpline","df","Degrees of Freedom",TRUE,TRUE,TRUE
+"122","gaussprLinear","parameter","Parameter",TRUE,TRUE,TRUE
+"123","gaussprPoly","degree","Polynomial Degree",TRUE,TRUE,TRUE
+"124","gaussprPoly","scale","Scale",TRUE,TRUE,TRUE
+"125","gaussprRadial","sigma","Sigma",TRUE,TRUE,TRUE
+"131","gbm","n.trees","# Boosting Iterations",TRUE,TRUE,TRUE
+"132","gbm","interaction.depth","Max Tree Depth",TRUE,TRUE,TRUE
+"133","gbm","shrinkage","Shrinkage",TRUE,TRUE,TRUE
+"134","gbm","n.minobsinnode","Min. Terminal Node Size",TRUE,TRUE,TRUE
+"126","gbm_h2o","ntrees","# Boosting Iterations",TRUE,TRUE,TRUE
+"127","gbm_h2o","max_depth","Max Tree Depth",TRUE,TRUE,TRUE
+"128","gbm_h2o","min_rows","Min. Terminal Node Size",TRUE,TRUE,TRUE
+"129","gbm_h2o","learn_rate","Shrinkage",TRUE,TRUE,TRUE
+"130","gbm_h2o","col_sample_rate","#Randomly Selected Predictors",TRUE,TRUE,TRUE
+"135","gcvEarth","degree","Product Degree",TRUE,TRUE,TRUE
+"136","GFS.FR.MOGUL","max.gen","Max. Generations",TRUE,FALSE,FALSE
+"137","GFS.FR.MOGUL","max.iter","Max. Iterations",TRUE,FALSE,FALSE
+"138","GFS.FR.MOGUL","max.tune","Max. Tuning Iterations",TRUE,FALSE,FALSE
+"139","GFS.LT.RS","popu.size","Population Size",TRUE,FALSE,FALSE
+"140","GFS.LT.RS","num.labels","# Fuzzy Labels",TRUE,FALSE,FALSE
+"141","GFS.LT.RS","max.gen","Max. Generations",TRUE,FALSE,FALSE
+"142","GFS.THRIFT","popu.size","Population Size",TRUE,FALSE,FALSE
+"143","GFS.THRIFT","num.labels","# Fuzzy Labels",TRUE,FALSE,FALSE
+"144","GFS.THRIFT","max.gen","Max. Generations",TRUE,FALSE,FALSE
+"146","glm","parameter","parameter",TRUE,TRUE,TRUE
+"145","glm.nb","link","Link Function",TRUE,FALSE,FALSE
+"147","glmboost","mstop","# Boosting Iterations",TRUE,TRUE,TRUE
+"148","glmboost","prune","AIC Prune?",TRUE,TRUE,TRUE
+"151","glmnet","alpha","Mixing Percentage",TRUE,TRUE,TRUE
+"152","glmnet","lambda","Regularization Parameter",TRUE,TRUE,TRUE
+"149","glmnet_h2o","alpha","Mixing Percentage",TRUE,TRUE,TRUE
+"150","glmnet_h2o","lambda","Regularization Parameter",TRUE,TRUE,TRUE
+"153","glmStepAIC","parameter","parameter",TRUE,TRUE,TRUE
+"163","HYFIS","num.labels","#Fuzzy Terms",TRUE,FALSE,FALSE
+"164","HYFIS","max.iter","Max. Iterations",TRUE,FALSE,FALSE
+"165","icr","n.comp","#Components",TRUE,FALSE,FALSE
+"171","kernelpls","ncomp","#Components",TRUE,TRUE,TRUE
+"172","kknn","kmax","Max. #Neighbors",TRUE,TRUE,TRUE
+"173","kknn","distance","Distance",TRUE,TRUE,TRUE
+"174","kknn","kernel","Kernel",TRUE,TRUE,TRUE
+"175","knn","k","#Neighbors",TRUE,TRUE,TRUE
+"176","krlsPoly","lambda","Regularization Parameter",TRUE,FALSE,FALSE
+"177","krlsPoly","degree","Polynomial Degree",TRUE,FALSE,FALSE
+"178","krlsRadial","lambda","Regularization Parameter",TRUE,FALSE,FALSE
+"179","krlsRadial","sigma","Sigma",TRUE,FALSE,FALSE
+"180","lars","fraction","Fraction",TRUE,FALSE,FALSE
+"181","lars2","step","#Steps",TRUE,FALSE,FALSE
+"182","lasso","fraction","Fraction of Full Solution",TRUE,FALSE,FALSE
+"185","leapBackward","nvmax","Maximum Number of Predictors",TRUE,FALSE,FALSE
+"186","leapForward","nvmax","Maximum Number of Predictors",TRUE,FALSE,FALSE
+"187","leapSeq","nvmax","Maximum Number of Predictors",TRUE,FALSE,FALSE
+"189","lm","intercept","intercept",TRUE,FALSE,FALSE
+"190","lmStepAIC","parameter","parameter",TRUE,FALSE,FALSE
+"193","logicBag","nleaves","Maximum Number of Leaves",TRUE,TRUE,TRUE
+"194","logicBag","ntrees","Number of Trees",TRUE,TRUE,TRUE
+"196","logreg","treesize","Maximum Number of Leaves",TRUE,TRUE,TRUE
+"197","logreg","ntrees","Number of Trees",TRUE,TRUE,TRUE
+"206","M5","pruned","Pruned",TRUE,FALSE,FALSE
+"207","M5","smoothed","Smoothed",TRUE,FALSE,FALSE
+"208","M5","rules","Rules",TRUE,FALSE,FALSE
+"209","M5Rules","pruned","Pruned",TRUE,FALSE,FALSE
+"210","M5Rules","smoothed","Smoothed",TRUE,FALSE,FALSE
+"215","mlp","size","#Hidden Units",TRUE,TRUE,TRUE
+"216","mlpKerasDecay","size","#Hidden Units",TRUE,TRUE,TRUE
+"217","mlpKerasDecay","lambda","L2 Regularization",TRUE,TRUE,TRUE
+"218","mlpKerasDecay","batch_size","Batch Size",TRUE,TRUE,TRUE
+"219","mlpKerasDecay","lr","Learning Rate",TRUE,TRUE,TRUE
+"220","mlpKerasDecay","rho","Rho",TRUE,TRUE,TRUE
+"221","mlpKerasDecay","decay","Learning Rate Decay",TRUE,TRUE,TRUE
+"222","mlpKerasDecay","activation","Activation Function",TRUE,TRUE,TRUE
+"231","mlpKerasDropout","size","#Hidden Units",TRUE,TRUE,TRUE
+"232","mlpKerasDropout","dropout","Dropout Rate",TRUE,TRUE,TRUE
+"233","mlpKerasDropout","batch_size","Batch Size",TRUE,TRUE,TRUE
+"234","mlpKerasDropout","lr","Learning Rate",TRUE,TRUE,TRUE
+"235","mlpKerasDropout","rho","Rho",TRUE,TRUE,TRUE
+"236","mlpKerasDropout","decay","Learning Rate Decay",TRUE,TRUE,TRUE
+"237","mlpKerasDropout","activation","Activation Function",TRUE,TRUE,TRUE
+"246","mlpML","layer1","#Hidden Units layer1",TRUE,TRUE,TRUE
+"247","mlpML","layer2","#Hidden Units layer2",TRUE,TRUE,TRUE
+"248","mlpML","layer3","#Hidden Units layer3",TRUE,TRUE,TRUE
+"249","mlpSGD","size","#Hidden Units",TRUE,TRUE,TRUE
+"250","mlpSGD","l2reg","L2 Regularization",TRUE,TRUE,TRUE
+"251","mlpSGD","lambda","RMSE Gradient Scaling",TRUE,TRUE,TRUE
+"252","mlpSGD","learn_rate","Learning Rate",TRUE,TRUE,TRUE
+"253","mlpSGD","momentum","Momentum",TRUE,TRUE,TRUE
+"254","mlpSGD","gamma","Learning Rate Decay",TRUE,TRUE,TRUE
+"255","mlpSGD","minibatchsz","Batch Size",TRUE,TRUE,TRUE
+"256","mlpSGD","repeats","#Models",TRUE,TRUE,TRUE
+"257","mlpWeightDecay","size","#Hidden Units",TRUE,TRUE,TRUE
+"258","mlpWeightDecay","decay","Weight Decay",TRUE,TRUE,TRUE
+"259","mlpWeightDecayML","layer1","#Hidden Units layer1",TRUE,TRUE,TRUE
+"260","mlpWeightDecayML","layer2","#Hidden Units layer2",TRUE,TRUE,TRUE
+"261","mlpWeightDecayML","layer3","#Hidden Units layer3",TRUE,TRUE,TRUE
+"262","mlpWeightDecayML","decay","Weight Decay",TRUE,TRUE,TRUE
+"263","monmlp","hidden1","#Hidden Units",TRUE,TRUE,TRUE
+"264","monmlp","n.ensemble","#Models",TRUE,TRUE,TRUE
+"265","msaenet","alphas","Alpha",TRUE,TRUE,TRUE
+"266","msaenet","nsteps","#Adaptive Estimation Steps",TRUE,TRUE,TRUE
+"267","msaenet","scale","Adaptive Weight Scaling Factor",TRUE,TRUE,TRUE
+"269","mxnet","layer1","#Hidden Units in Layer 1",TRUE,TRUE,TRUE
+"270","mxnet","layer2","#Hidden Units in Layer 2",TRUE,TRUE,TRUE
+"271","mxnet","layer3","#Hidden Units in Layer 3",TRUE,TRUE,TRUE
+"272","mxnet","learning.rate","Learning Rate",TRUE,TRUE,TRUE
+"273","mxnet","momentum","Momentum",TRUE,TRUE,TRUE
+"274","mxnet","dropout","Dropout Rate",TRUE,TRUE,TRUE
+"275","mxnet","activation","Activation Function",TRUE,TRUE,TRUE
+"276","mxnetAdam","layer1","#Hidden Units in Layer 1",TRUE,TRUE,TRUE
+"277","mxnetAdam","layer2","#Hidden Units in Layer 2",TRUE,TRUE,TRUE
+"278","mxnetAdam","layer3","#Hidden Units in Layer 3",TRUE,TRUE,TRUE
+"279","mxnetAdam","dropout","Dropout Rate",TRUE,TRUE,TRUE
+"280","mxnetAdam","beta1","beta1",TRUE,TRUE,TRUE
+"281","mxnetAdam","beta2","beta2",TRUE,TRUE,TRUE
+"282","mxnetAdam","learningrate","Learning Rate",TRUE,TRUE,TRUE
+"283","mxnetAdam","activation","Activation Function",TRUE,TRUE,TRUE
+"296","neuralnet","layer1","#Hidden Units in Layer 1",TRUE,FALSE,FALSE
+"297","neuralnet","layer2","#Hidden Units in Layer 2",TRUE,FALSE,FALSE
+"298","neuralnet","layer3","#Hidden Units in Layer 3",TRUE,FALSE,FALSE
+"299","nnet","size","#Hidden Units",TRUE,TRUE,TRUE
+"300","nnet","decay","Weight Decay",TRUE,TRUE,TRUE
+"301","nnls","parameter","parameter",TRUE,FALSE,FALSE
+"302","nodeHarvest","maxinter","Maximum Interaction Depth",TRUE,TRUE,TRUE
+"303","nodeHarvest","mode","Prediction Mode",TRUE,TRUE,TRUE
+"304","null","parameter","parameter",TRUE,TRUE,TRUE
+"315","parRF","mtry","#Randomly Selected Predictors",TRUE,TRUE,TRUE
+"318","partDSA","cut.off.growth","Number of Terminal Partitions",TRUE,TRUE,FALSE
+"319","partDSA","MPD","Minimum Percent Difference",TRUE,TRUE,FALSE
+"320","pcaNNet","size","#Hidden Units",TRUE,TRUE,TRUE
+"321","pcaNNet","decay","Weight Decay",TRUE,TRUE,TRUE
+"322","pcr","ncomp","#Components",TRUE,FALSE,FALSE
+"325","penalized","lambda1","L1 Penalty",TRUE,FALSE,FALSE
+"326","penalized","lambda2","L2 Penalty",TRUE,FALSE,FALSE
+"331","pls","ncomp","#Components",TRUE,TRUE,TRUE
+"332","plsRglm","nt","#PLS Components",TRUE,TRUE,TRUE
+"333","plsRglm","alpha.pvals.expli","p-Value threshold",TRUE,TRUE,TRUE
+"335","ppr","nterms","# Terms",TRUE,FALSE,FALSE
+"343","qrf","mtry","#Randomly Selected Predictors",TRUE,FALSE,FALSE
+"344","qrnn","n.hidden","#Hidden Units",TRUE,FALSE,FALSE
+"345","qrnn","penalty"," Weight Decay",TRUE,FALSE,FALSE
+"346","qrnn","bag","Bagged Models?",TRUE,FALSE,FALSE
+"347","randomGLM","maxInteractionOrder","Interaction Order",TRUE,TRUE,TRUE
+"348","ranger","mtry","#Randomly Selected Predictors",TRUE,TRUE,TRUE
+"349","ranger","splitrule","Splitting Rule",TRUE,TRUE,TRUE
+"350","ranger","min.node.size","Minimal Node Size",TRUE,TRUE,TRUE
+"351","rbf","size","#Hidden Units",TRUE,TRUE,TRUE
+"352","rbfDDA","negativeThreshold","Activation Limit for Conflicting Classes",TRUE,TRUE,TRUE
+"353","Rborist","predFixed","#Randomly Selected Predictors",TRUE,TRUE,TRUE
+"354","Rborist","minNode","Minimal Node Size",TRUE,TRUE,TRUE
+"360","relaxo","lambda","Penalty Parameter",TRUE,FALSE,FALSE
+"361","relaxo","phi","Relaxation Parameter",TRUE,FALSE,FALSE
+"362","rf","mtry","#Randomly Selected Predictors",TRUE,TRUE,TRUE
+"365","rfRules","mtry","#Randomly Selected Predictors",TRUE,TRUE,FALSE
+"366","rfRules","maxdepth","Maximum Rule Depth",TRUE,TRUE,FALSE
+"367","ridge","lambda","Weight Decay",TRUE,FALSE,FALSE
+"369","rlm","intercept","intercept",TRUE,FALSE,FALSE
+"370","rlm","psi","psi",TRUE,FALSE,FALSE
+"379","rpart","cp","Complexity Parameter",TRUE,TRUE,TRUE
+"380","rpart1SE","parameter","parameter",TRUE,TRUE,TRUE
+"381","rpart2","maxdepth","Max Tree Depth",TRUE,TRUE,TRUE
+"387","rqlasso","lambda","L1 Penalty",TRUE,FALSE,FALSE
+"388","rqnc","lambda","L1 Penalty",TRUE,FALSE,FALSE
+"389","rqnc","penalty","Penalty Type",TRUE,FALSE,FALSE
+"390","RRF","mtry","#Randomly Selected Predictors",TRUE,TRUE,TRUE
+"391","RRF","coefReg","Regularization Value",TRUE,TRUE,TRUE
+"392","RRF","coefImp","Importance Coefficient",TRUE,TRUE,TRUE
+"393","RRFglobal","mtry","#Randomly Selected Predictors",TRUE,TRUE,TRUE
+"394","RRFglobal","coefReg","Regularization Value",TRUE,TRUE,TRUE
+"399","rvmLinear","parameter","parameter",TRUE,FALSE,FALSE
+"400","rvmPoly","scale","Scale",TRUE,FALSE,FALSE
+"401","rvmPoly","degree","Polynomial Degree",TRUE,FALSE,FALSE
+"402","rvmRadial","sigma","Sigma",TRUE,FALSE,FALSE
+"403","SBC","r.a","Radius",TRUE,FALSE,FALSE
+"404","SBC","eps.high","Upper Threshold",TRUE,FALSE,FALSE
+"405","SBC","eps.low","Lower Threshold",TRUE,FALSE,FALSE
+"410","simpls","ncomp","#Components",TRUE,TRUE,TRUE
+"421","spikeslab","vars","Variables Retained",TRUE,FALSE,FALSE
+"422","spls","K","#Components",TRUE,TRUE,TRUE
+"423","spls","eta","Threshold",TRUE,TRUE,TRUE
+"424","spls","kappa","Kappa",TRUE,TRUE,TRUE
+"429","superpc","threshold","Threshold",TRUE,FALSE,FALSE
+"430","superpc","n.components","#Components",TRUE,FALSE,FALSE
+"431","svmBoundrangeString","length","length",TRUE,TRUE,TRUE
+"432","svmBoundrangeString","C","Cost",TRUE,TRUE,TRUE
+"433","svmExpoString","lambda","lambda",TRUE,TRUE,TRUE
+"434","svmExpoString","C","Cost",TRUE,TRUE,TRUE
+"435","svmLinear","C","Cost",TRUE,TRUE,TRUE
+"436","svmLinear2","cost","Cost",TRUE,TRUE,TRUE
+"437","svmLinear3","cost","Cost",TRUE,TRUE,FALSE
+"438","svmLinear3","Loss","Loss Function",TRUE,TRUE,FALSE
+"444","svmPoly","degree","Polynomial Degree",TRUE,TRUE,TRUE
+"445","svmPoly","scale","Scale",TRUE,TRUE,TRUE
+"446","svmPoly","C","Cost",TRUE,TRUE,TRUE
+"447","svmRadial","sigma","Sigma",TRUE,TRUE,TRUE
+"448","svmRadial","C","Cost",TRUE,TRUE,TRUE
+"449","svmRadialCost","C","Cost",TRUE,TRUE,TRUE
+"450","svmRadialSigma","sigma","Sigma",TRUE,TRUE,TRUE
+"451","svmRadialSigma","C","Cost",TRUE,TRUE,TRUE
+"455","svmSpectrumString","length","length",TRUE,TRUE,TRUE
+"456","svmSpectrumString","C","Cost",TRUE,TRUE,TRUE
+"464","treebag","parameter","parameter",TRUE,TRUE,TRUE
+"472","widekernelpls","ncomp","#Components",TRUE,TRUE,TRUE
+"473","WM","num.labels","#Fuzzy Terms",TRUE,FALSE,FALSE
+"474","WM","type.mf","Membership Function",TRUE,FALSE,FALSE
+"476","xgbDART","nrounds","# Boosting Iterations",TRUE,TRUE,TRUE
+"477","xgbDART","max_depth","Max Tree Depth",TRUE,TRUE,TRUE
+"478","xgbDART","eta","Shrinkage",TRUE,TRUE,TRUE
+"479","xgbDART","gamma","Minimum Loss Reduction",TRUE,TRUE,TRUE
+"480","xgbDART","subsample","Subsample Percentage",TRUE,TRUE,TRUE
+"481","xgbDART","colsample_bytree","Subsample Ratio of Columns",TRUE,TRUE,TRUE
+"482","xgbDART","rate_drop","Fraction of Trees Dropped",TRUE,TRUE,TRUE
+"483","xgbDART","skip_drop","Prob. of Skipping Drop-out",TRUE,TRUE,TRUE
+"484","xgbDART","min_child_weight","Minimum Sum of Instance Weight",TRUE,TRUE,TRUE
+"485","xgbLinear","nrounds","# Boosting Iterations",TRUE,TRUE,TRUE
+"486","xgbLinear","lambda","L2 Regularization",TRUE,TRUE,TRUE
+"487","xgbLinear","alpha","L1 Regularization",TRUE,TRUE,TRUE
+"488","xgbLinear","eta","Learning Rate",TRUE,TRUE,TRUE
+"489","xgbTree","nrounds","# Boosting Iterations",TRUE,TRUE,TRUE
+"490","xgbTree","max_depth","Max Tree Depth",TRUE,TRUE,TRUE
+"491","xgbTree","eta","Shrinkage",TRUE,TRUE,TRUE
+"492","xgbTree","gamma","Minimum Loss Reduction",TRUE,TRUE,TRUE
+"493","xgbTree","colsample_bytree","Subsample Ratio of Columns",TRUE,TRUE,TRUE
+"494","xgbTree","min_child_weight","Minimum Sum of Instance Weight",TRUE,TRUE,TRUE
+"495","xgbTree","subsample","Subsample Percentage",TRUE,TRUE,TRUE
+"496","xyf","xdim","Rows",TRUE,TRUE,TRUE
+"497","xyf","ydim","Columns",TRUE,TRUE,TRUE
+"498","xyf","user.weights","Layer Weight",TRUE,TRUE,TRUE
+"499","xyf","topo","Topology",TRUE,TRUE,TRUE

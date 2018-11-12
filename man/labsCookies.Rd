@@ -18,5 +18,5 @@ all FantasyLab Cookies
 lab Cookies Retrieval Functions
 }
 \examples{
-pgaCookies<-labsCookies("labCookies","mlb")
+pgaCookies<-labsCookies("labCookies","pga")
 }

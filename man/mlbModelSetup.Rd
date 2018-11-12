@@ -4,8 +4,9 @@
 \alias{mlbModelSetup}
 \title{mlb Model Import Function}
 \usage{
-mlbModelSetup(modelDate = "3_4_2018", pastEvent = FALSE,
-  labModel = "WGCBridgestone", postRefresh = NULL, parallelRun = FALSE,
+mlbModelSetup(modelDate = "4_1_2018", pastEvent = TRUE,
+  labModel = "mainBae", postRefresh = 1, systemRefresh = 1,
+  parallelRun = FALSE, batsOnly = FALSE, armsOnly = FALSE,
   cookie = mlbCookies)
 }
 \arguments{
@@ -15,9 +16,15 @@ mlbModelSetup(modelDate = "3_4_2018", pastEvent = FALSE,
 
 \item{labModel}{name of fantasyLab model to use}
 
-\item{postRefresh}{reRun for misc postTourney stats}
+\item{postRefresh}{reRun for misc postTourney stats(1/0)[T/F]}
+
+\item{systemRefresh}{refresh lab models data(1/0)[T/F]}
 
 \item{parallelRun}{running with doSNOW in parallel TRUE/FALSE}
+
+\item{batsOnly}{only hitters data}
+
+\item{armsOnly}{only pitcher data}
 
 \item{cookie}{labsCookies}
 }

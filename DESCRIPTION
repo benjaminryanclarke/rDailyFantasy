@@ -1,6 +1,6 @@
 Package: rDailyFantasy
 Title: Provides Tools For Daily Fantasy Sports
-Version: 0.0.0.9000
+Version: 0.0.0.9904
 Authors@R: as.person(c("Benjamin Clarke <benjaminryanclarke@icloud.com> [aut,cre]"))
 Description: Provides tools(functions) to assist in daily fantasy analysis
     focusing primarily on Draftkings contests and data with help from FantasyLabs
@@ -17,8 +17,8 @@ Imports:
     lubridate (>= 1.7.1),
     qdapRegex (>= 0.7.2),
     rapportools (>= 1.0),
-    RSelenium (>= 1.7.1),
     rapportools (>= 1.0),
+    RSelenium (>= 1.7.1),
     rvest (>= 0.3.2),
     snow (>= 0.4-2),
     tidyr (>= 0.7.2),
@@ -33,4 +33,4 @@ Suggests:
 License: CCo
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
