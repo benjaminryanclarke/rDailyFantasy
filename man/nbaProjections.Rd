@@ -4,17 +4,28 @@
 \alias{nbaProjections}
 \title{nbaProjectionsFunction}
 \usage{
-nbaProjections(modelDate = "10_17_2018", gameSlate = "Main",
+nbaProjections(modelDate = "2_8_2019", gameSlate = "Main",
+  upload = "finalOptimal", algoX = "xgb.actualPoints.big.full.Final",
+  treatPlanX = "treatplanBig", newVarsX = "new_varsBig",
   nbaModel = "nbaCubist", zeroOwnModel = "nbaZeroOwngbmnba",
-  nbaPre = "preProcNBA", labModel = "2017FirstModel",
-  labZeroModel = "zeroOwnVarImp", getCorr = FALSE,
-  saveNameAdd = "zeroRussellAndFlow", refreshModel = TRUE,
-  cookies = nbaCookies)
+  nbaPre = "preProcNBA", labModel = "Money",
+  labZeroModel = "Contrarians", plusMinusPre = "plusMinusPreProc",
+  valuePre = "valuePreProc", plusMinusModel = "plusMinusgbm",
+  valueModel = "valuegbm", sameDay = TRUE, getCorr = FALSE,
+  refreshModel = TRUE, cookies = nbaCookies)
 }
 \arguments{
 \item{modelDate}{"10_17_2018"}
 
 \item{gameSlate}{"Main"}
+
+\item{upload}{labs Proj Upload 'finalOptimal'}
+
+\item{algoX}{xgboost algo}
+
+\item{treatPlanX}{xgboost treatplan}
+
+\item{newVarsX}{xgboost new_vars}
 
 \item{nbaModel}{"nbaCubist"}
 
@@ -26,9 +37,17 @@ nbaProjections(modelDate = "10_17_2018", gameSlate = "Main",
 
 \item{labZeroModel}{fantasylabsXeroOwnModel}
 
-\item{getCorr}{getActualCorrelelation post contests}
+\item{plusMinusPre}{"plusMinusPreProc"}
 
-\item{saveNameAdd}{"russelAndFlow"}
+\item{valuePre}{"valuePreProc"}
+
+\item{plusMinusModel}{"plusMinusgbm"}
+
+\item{valueModel}{"valuegbm"}
+
+\item{sameDay}{T/F}
+
+\item{getCorr}{getActualCorrelelation post contests}
 
 \item{refreshModel}{T/F refreshdataSet pulled for projections?}
 
@@ -41,5 +60,5 @@ nbaProjections/also output as .csv in NBA_Daily/dfsProjections/
 nbaProjectionsFunction
 }
 \examples{
-nbaProjections(modelDate="10_17_2018",gameSlate="Main",nbaModel="nbaCubist",zeroOwnModel="nbaZeroOwngbmModel",nbaPre="preProcNBA",labModel="2017FirstModel",labZeroModel="zeroOwnVarImp",getCorr=FALSE,saveNameAdd="zeroRussellAndFlow",refreshModel=TRUE,cookies=nbaCookies)
+nbaProjections(modelDate="2_8_2019",gameSlate="Main",upload='finalOptimal',algoX="xgb.actualPoints.big.full.Final",treatPlanX="treatplanBig",newVarsX="new_varsBig",nbaModel="nbaCubist",zeroOwnModel="nbaZeroOwngbmnba",nbaPre="preProcNBA",labModel="Money",labZeroModel="Contrarians",plusMinusPre="plusMinusPreProc",valuePre="valuePreProc",plusMinusModel="plusMinusgbm",valueModel="valuegbm",sameDay=TRUE,getCorr=FALSE,refreshModel=TRUE,cookies=nbaCookies)
 }

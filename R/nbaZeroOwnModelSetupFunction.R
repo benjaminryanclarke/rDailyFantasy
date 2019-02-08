@@ -11,7 +11,7 @@
 #' @export
 #'
 #' @examples nbaModelSetup(modelDate="10_16_2018",gameSlate="Main",labModel="2017FirstModel",systemsRefresh=0,sourceRefresh=0,cookie=nbaCookies)
-nbaZeroModelSetup<-function(modelDate="10_16_2018",gameSlate="Main",labModel="zeroOwnVarImp",systemsRefresh=0,sourceRefresh=0,cookie=nbaCookies){
+nbaZeroModelSetup<-function(modelDate="10_16_2018",gameSlate="Main",labModel="Contrarians",systemsRefresh=0,sourceRefresh=0,cookie=nbaCookies){
 
   require(foreach,quietly = TRUE,warn.conflicts = F)
   require(doSNOW,quietly = TRUE,warn.conflicts = F)
@@ -162,6 +162,17 @@ nbaZeroModelSetup<-function(modelDate="10_16_2018",gameSlate="Main",labModel="ze
 
   #dkPlayerModelFull<-left_join(dkPlayerModel,fullPlayerMatchup,by="PlayerId") %>% unique() %>% dplyr::filter(!is.na(ContestSuffix))
   dkPlayerModelFull<-inner_join(dkPlayerModel,fullPlayerMatchup,by="PlayerId") %>% unique() %>% dplyr::filter(!is.na(ContestSuffix))
+
+  nbaLeveragePreProc<-rDailyFantasy::loadRData(paste0("~/NBA_Daily/machineLearning/preProcessing/","nbaLeveragePreProc",".rda"))
+  nbaLevcubist<-rDailyFantasy::loadRData(paste0("~/NBA_Daily/machineLearning/algos/","nbaLevcubist",".rda"))
+
+  dkPlayerModelFullLevPre<-predict(nbaLeveragePreProc,dkPlayerModelFull)
+  dkPMFLevPred<-predict(nbaLevcubist,dkPlayerModelFullLevPre)
+
+  dkPlayerModelFull<-dkPlayerModelFull %>% mutate("LeveragePct"=round(dkPMFLevPred,2))
+
+  plusMinusMatchup<-dkPlayerModelFull$Off_FLPlusMinus_DK-dkPlayerModelFull$Def_FLPlusMinus_DK
+  dkPlayerModelFull<-dkPlayerModelFull %>% dplyr::mutate("plusMinusMatchup"=plusMinusMatchup)
 
   #nestedPlayerModel by slateName/ContestGroupId
   dkPlayerModelNested<-dkPlayerModelFull %>% dplyr::group_by(ContestSuffix) %>% tidyr::nest()

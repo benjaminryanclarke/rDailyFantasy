@@ -5,16 +5,21 @@
 #' @param lineUps #lineups
 #' @param bans exclude
 #' @param locks include
-#' @param saveNameAdd russellAndFlow
 #' @param sameDay optimizing for same day as running function? T/F
 #' @param cookie fantasyLabs Cookies
 #' @param dCookies draftkings Cookies
+#' @param optModel regression proj model for lineups overall
+#' @param projectionSrc x("xgb","cubist")
+#' @param nbaModel nbaranger2
+#' @param labModel Money
+#' @param zeroOwnModel "nbaZeroOwngbmnba"
+#' @param labZeroModel "Contrarians"
 #'
 #' @return lineups
 #' @export
 #'
-#' @examples nbaOptimizer(modelDate="11_10_2018",gameSlate="Main",sameDay=TRUE,lineUps=200L,bans=NULL,locks=c(""),saveNameAdd="zeroRussellAndFlow",cookie=nbaCookies,dCookies=dkCookies)
-nbaOptimizer<-function(modelDate="11_10_2018",gameSlate="Main",sameDay=TRUE,lineUps=200L,bans=NULL,locks=c(""),saveNameAdd="zeroRussellAndFlow",cookie=nbaCookies,dCookies=dkCookies){
+#' @examples nbaOptimizer(modelDate="11_10_2018",gameSlate="Main",sameDay=TRUE,optModel="optTrainranger",lineUps=200L,bans=NULL,locks=c(""),saveNameAdd="zeroRussellAndFlow",cookie=nbaCookies,dCookies=dkCookies)
+nbaOptimizer<-function(modelDate="11_15_2018",gameSlate="Main",sameDay=TRUE,projectionSrc="xgb",optModel="optTrainranger",lineUps=200L,bans=NULL,locks=c(""),nbaModel="nbaranger2",labModel="Money",zeroOwnModel="nbaZeroOwngbmnba",labZeroModel="Contrarians",cookie=nbaCookies,dCookies=dkCookies){
 
   require(coach, quietly = TRUE,warn.conflicts = F)
 
@@ -30,6 +35,18 @@ nbaOptimizer<-function(modelDate="11_10_2018",gameSlate="Main",sameDay=TRUE,line
 
   hmDir<-getwd()
 
+  modelCheck<-list(ls())
+  if(optModel %in% modelCheck[[1]]==FALSE){
+    optModel<-rDailyFantasy::loadRData(paste0("~/NBA_Daily/machineLearning/algos/",optModel,".rda"))
+  }
+
+  if(nbaModel %in% modelCheck[[1]]==FALSE){
+    nbaModel<-rDailyFantasy::loadRData(paste0("~/NBA_Daily/machineLearning/algos/",nbaModel,".rda"))
+  }
+
+  if(zeroOwnModel %in% modelCheck[[1]]==FALSE){
+    zeroOwnModel<-rDailyFantasy::loadRData(paste0("~/NBA_Daily/machineLearning/algos/",zeroOwnModel,".rda"))
+  }
 
 
   #separate modelDate into month,day,year objects
@@ -93,7 +110,12 @@ nbaOptimizer<-function(modelDate="11_10_2018",gameSlate="Main",sameDay=TRUE,line
   foreach(i=1:nrow(gameInfoDf)) %do% {
     if(nchar(gameInfoDf$EventTime[i])==11){
       gameInfoDf$EventTime[i]<-paste0(0,gameInfoDf$EventTime[i])
+    }else{
+      gameInfoDf$EventTime[i]<-gameInfoDf$EventTime[i]
     }
+  }
+  if(nchar(mDay)==1){
+    mDay<-paste0(0,mDay)
   }
   rightDate<-paste0(mYear,"-",mMonth,"-",mDay,"T00:00:00")
   gameInfoDf<-gameInfoDf %>% dplyr::filter(EventDate==rightDate)
@@ -122,7 +144,7 @@ nbaOptimizer<-function(modelDate="11_10_2018",gameSlate="Main",sameDay=TRUE,line
 
   dkData<-gameInfoJoin[,c(1:6,9,7,8)]
 
-  nba <- read.csv(paste0("~/NBA_Daily/dfsProjections/",mYear,"/",modelDate,"/",gameSlate,"/",saveNameAdd,"cubistProjections.csv")) %>% dplyr::select(-X)
+  nba <- read.csv(paste0("~/NBA_Daily/dfsProjections/",mYear,"/",modelDate,"/",gameSlate,"/","nba",nbaModel$method,labModel,"_Zero",zeroOwnModel$method,labZeroModel,"_Projections.csv")) %>% dplyr::select(-X)
   nbaExtra<-read.csv(paste0("~/NBA_Daily/dataSets/",mYear,"/",modelDate,"/",gameSlate,"/stats.csv")) %>% dplyr::select(-X)
   nbaZeroExtra<-read.csv(paste0("~/NBA_Daily/dataSets/",mYear,"/",modelDate,"/",gameSlate,"/zeroStats.csv")) %>% dplyr::select(-X)
   nbaFRIDBind<-bind_rows(nbaExtra,nbaZeroExtra)
@@ -143,7 +165,7 @@ nbaOptimizer<-function(modelDate="11_10_2018",gameSlate="Main",sameDay=TRUE,line
   write.csv(dkData,file = paste0("~/NBA_Daily/draftkingsData/",mYear,"/",modelDate,"/",gameSlate,"/DKSalaries/DKSalariesOptim.csv"),row.names=FALSE)
 
   #read in raw DKSalariesOptim and cleanup
-  data <-read_dk(paste0("~/NBA_Daily/draftkingsData/",mYear,"/",modelDate,"/",gameSlate,"/DKSalaries/DKSalariesOptim.csv"))
+  data <-coach::read_dk(paste0("~/NBA_Daily/draftkingsData/",mYear,"/",modelDate,"/",gameSlate,"/DKSalaries/DKSalariesOptim.csv"))
   #read in projections file
   #nba <- read.csv(paste0("~/NBA_Daily/dfsProjections/",mYear,"/",modelDate,"/",gameSlate,"/",saveNameAdd,"cubistProjections.csv")) %>% dplyr::select(-X)
   #replace "Player_Name" column name with "player" for joining data with projections
@@ -163,7 +185,11 @@ nbaOptimizer<-function(modelDate="11_10_2018",gameSlate="Main",sameDay=TRUE,line
 
   data2 <- dplyr::inner_join(data,nba,by = c("player" = "Player_Name"))
   #insert projections into "fpts_proj" column for optimization
-  data3 <- data2 %>% dplyr::mutate(fpts_proj=data2$projection)
+  if(projectionSrc=="xgb"){
+  data3 <- data2 %>% dplyr::mutate(fpts_proj=data2$xgbProj)
+  }else{
+    data3 <- data2 %>% dplyr::mutate(fpts_proj=data2$projection)
+    }
   #data4 <- read.csv(paste0("~/NBA_Daily/dataSets/",mYear,"/",modelDate,"/",gameSlate,"/zeroStats.csv"))
   #data4<-data4[,c("Player_Name","Team","OppTeam")]
   #data3<-data3 %>% select(-team,-opp_team)
@@ -174,8 +200,8 @@ nbaOptimizer<-function(modelDate="11_10_2018",gameSlate="Main",sameDay=TRUE,line
   #data3$opp_team<-substr(data3$opp_team, start = 1, stop = 3)
 
 
-  model <- model_dk_nba(data3)
-  lineups<- optimize_generic(na.What(data3),model,L = lineUps,min_salary = 49500)
+  model <- coach::model_dk_nba(data3)
+  lineups<- coach::optimize_generic(na.What(data3),model,L = lineUps,min_salary = 49500)
   lineupsNorm<-foreach(a=1:lineUps,.combine = data.frame) %do% {
     lnorm<-coach::normalize_lineup(lineups[[a]],site = "draftkings",sport = "nba")
     suppressWarnings(row.names(lnorm)<- c("PG","SG","SF","PF","C","G","F","UTIL"))
@@ -211,7 +237,8 @@ nbaOptimizer<-function(modelDate="11_10_2018",gameSlate="Main",sameDay=TRUE,line
     u<-sum(as.numeric(lineupsSplit[[c]][32,1:8]))
     v<-sum(as.numeric(lineupsSplit[[c]][35,1:8]))
     w<-sum(as.numeric(lineupsSplit[[c]][36,1:8]))
-    lineupsSplit[[c]][2,1:8] %>% mutate(sd=sdSplit,Actual=actual,salary=a,fpts_avg=b,gppRank=d,projection=e,Score=f,GPPP=g,p_own=h,Ceiling=i,Floor=j,MinutesProj=k,FantasyPerMinute=l,UsageProj=m,PtVal=n,ProjPlusMinus=o,PaceD=p,OppPlusMinus=q,PointsPerTouch=r,Touches=s,Upside=t,StealsPlusBlocks=u,sixTimesPts=v,projValue=w) %>% setNames(c("PG","SG","SF","PF","C","G","F","UTIL","risk","ActualPoints",rownames(lineupsSplit[[1]])[c(8:9,11:17,19:27,30,32,35,36)]))
+    x<-sum(as.numeric(lineupsSplit[[c]][38,1:8]))
+    lineupsSplit[[c]][2,1:8] %>% mutate(sd=sdSplit,Actual=actual,salary=a,fpts_avg=b,gppRank=d,projection=e,Score=f,GPPP=g,p_own=h,Ceiling=i,Floor=j,MinutesProj=k,FantasyPerMinute=l,UsageProj=m,PtVal=n,ProjPlusMinus=o,PaceD=p,OppPlusMinus=q,PointsPerTouch=r,Touches=s,Upside=t,StealsPlusBlocks=u,sixTimesPts=v,projValue=w,matchupPlusMinus=x) %>% setNames(c("PG","SG","SF","PF","C","G","F","UTIL","risk","ActualPoints",rownames(lineupsSplit[[1]])[c(8:9,11:17,19:27,30,32,35,36,38)]))
     }
   lineOuts<-bind_rows(lineupOutForm)
 
@@ -250,9 +277,19 @@ nbaOptimizer<-function(modelDate="11_10_2018",gameSlate="Main",sameDay=TRUE,line
   lineOutsNames<-data.frame(lineOutsNames,lineOuts[,9:32])
   lineOuts<-lineOutsNames
 
+  lineOutsPred<-predict(optModel,na.What(lineOuts))
+  lineOuts<-lineOuts %>% dplyr::mutate(lineProj=lineOutsPred)
+
   optimNumber<-length(list.files(paste0("~/NBA_Daily/draftkingsData/",mYear,"/",modelDate,"/",gameSlate,"/optimizedLineups/"))) + 1
   #write.csv(lineOuts,file=paste0("~/NBA_Daily/draftkingsData/",mYear,"/",modelDate,"/",gameSlate,"/optimizedLineups/",luNumber,"__",timeSt,".csv"),row.names = FALSE)
   write.csv(lineOuts,file=paste0("~/NBA_Daily/draftkingsData/",mYear,"/",modelDate,"/",gameSlate,"/optimizedLineups/",optimNumber,".csv"),row.names = FALSE)
+
+
+
+
+  myTopLine<-lineOuts$ActualPoints %>% rapportools::max()
+  myBottomLine<-lineOuts$ActualPoints %>% rapportools::min()
+  myLinesSd<-round(sd(lineOuts$ActualPoints),4)
 
   if(sameDay!=TRUE){
     nbaResults(modelDate = modelDate)
@@ -260,8 +297,8 @@ nbaOptimizer<-function(modelDate="11_10_2018",gameSlate="Main",sameDay=TRUE,line
     winningLine<-read.csv(file=paste0("~/NBA_Daily/results/",mYear,"/",modelDate,"/",gameSlate,"/results.csv")) %>% dplyr::select(-X) %>% .[1,paste0(gameSlate,".best")]
     greenLineUps<-foreach(z=1:nrow(lineOuts),.combine = "+") %do% dplyr::if_else(lineOuts[z,"ActualPoints"]>=cashLine,true = 1,false = 0)
     cashPercent<-greenLineUps/nrow(lineOuts)*100
-    write.csv(lineOuts,file=paste0("~/NBA_Daily/draftkingsData/",mYear,"/",modelDate,"/",gameSlate,"/optimizedLineups/",optimNumber,"__",round(cashPercent,1),"%_or_",greenLineUps,"_of_",nrow(lineOuts),"_lineups_Over_",round(cashLine,1),"_inTheMoney.csv"),row.names = FALSE)
-    return(list("lineUps"=lineOuts,"actualPerformance"=c(paste0(round(cashPercent,1),"% or ",greenLineUps," of ",nrow(lineOuts)," lineups Over ",round(cashLine,1)," inTheMoney."))))
+    write.csv(lineOuts,file=paste0("~/NBA_Daily/draftkingsData/",mYear,"/",modelDate,"/",gameSlate,"/optimizedLineups/",optimNumber,nbaModel$method,zeroOwnModel$method,"__",round(cashPercent,1),"%_or_",greenLineUps,"_of_",nrow(lineOuts),"_lineups_Over_",round(cashLine,1),"_inTheMoney","_with_High_of_",myTopLine,"_and_Low_of_",myBottomLine,"_and_stDev_of_",myLinesSd,".csv"),row.names = FALSE)
+    return(list("lineUps"=lineOuts,"actualPerformance"=c(paste0(round(cashPercent,1),"% or ",greenLineUps," of ",nrow(lineOuts)," lineups Over ",round(cashLine,1)," inTheMoney. High of ",myTopLine," ,Low of ",myBottomLine," and stDev of ",myLinesSd))))
   }else{
       return(lineOuts)
   }

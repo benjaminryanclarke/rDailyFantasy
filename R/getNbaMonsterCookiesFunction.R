@@ -6,12 +6,12 @@
 #' @examples getBBMCookies()
 getBBMCookies<-function(dockerName="monsterLab"){
 
-  require(wdman,quietly = TRUE,warn.conflicts = F)
-  require(foreach,quietly = TRUE,warn.conflicts = F)
-  require(rapportools,quietly = TRUE,warn.conflicts = F)
-  require(dplyr,quietly = TRUE,warn.conflicts = F)
-  require(RSelenium,quietly = TRUE,warn.conflicts = F)
-  require(stringi,quietly = TRUE,warn.conflicts = F)
+  suppressPackageStartupMessages(require(wdman,quietly = TRUE,warn.conflicts = F))
+  suppressPackageStartupMessages(require(foreach,quietly = TRUE,warn.conflicts = F))
+  suppressPackageStartupMessages(require(rapportools,quietly = TRUE,warn.conflicts = F))
+  suppressPackageStartupMessages(require(dplyr,quietly = TRUE,warn.conflicts = F))
+  suppressPackageStartupMessages(require(RSelenium,quietly = TRUE,warn.conflicts = F))
+  suppressPackageStartupMessages(require(stringi,quietly = TRUE,warn.conflicts = F))
 
 
   Sys.setenv(PATH="/usr/local/bin:/usr/bin:/usr/local/git/bin:/sw/bin:/usr/local/bin:/usr/local:/usr/local/sbin:/usr/local/mysql/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/TeX/texbin:/usr/local/MacGPG2/bin:/opt/X11/bin:/usr/local/bin:/Users/Ben/bin")
@@ -27,8 +27,8 @@ getBBMCookies<-function(dockerName="monsterLab"){
   web$navigate(url="https://basketballmonster.com/login.aspx")
   usernameBox <- web$findElement(using='css selector',"#ContentPlaceHolder1_UsernameTextBox")
   passwordBox <- web$findElement(using='css selector',"#ContentPlaceHolder1_PasswordTextBox")
-  usernameBox$sendKeysToElement(list("Benjaminryanclarke"))
-  passwordBox$sendKeysToElement(list("tjk589682"))
+  usernameBox$sendKeysToElement(list(read.csv("~/rDFS/rDailyFantasy/passwordsFile.csv")[2][[1]][3]))
+  passwordBox$sendKeysToElement(list(read.csv("~/rDFS/rDailyFantasy/passwordsFile.csv")[3][[1]][3]))
   web$findElement("css selector", "#ContentPlaceHolder1_LoginButton")$clickElement()
   waitFor(7)
   web$navigate(url="https://basketballmonster.com/dfsdvp.aspx")

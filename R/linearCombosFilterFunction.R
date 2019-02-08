@@ -9,6 +9,6 @@
 combos.Filter<-suppressWarnings(function(x){
   suppressMessages(correl<-cor(x))
   cor.data<-caret::findLinearCombos(na.zero(correl))
-  cor.x<-x[,-cor.data$remove]
+  cor.x<-x[,-c(cor.data$remove)]
   return(cor.x)
 })

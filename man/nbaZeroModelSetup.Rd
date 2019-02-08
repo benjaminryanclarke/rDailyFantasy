@@ -5,7 +5,7 @@
 \title{NBA Player Model Zero Projected Ownership Retrieval Function}
 \usage{
 nbaZeroModelSetup(modelDate = "10_16_2018", gameSlate = "Main",
-  labModel = "zeroOwnVarImp", systemsRefresh = 0, sourceRefresh = 0,
+  labModel = "Contrarians", systemsRefresh = 0, sourceRefresh = 0,
   cookie = nbaCookies)
 }
 \arguments{

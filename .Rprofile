@@ -3,12 +3,13 @@ options(stringsAsFactors = FALSE)
 options(scipen=10)
 options(continue="... ")
 
+.First<-function(){
 sshhh <- function(a.package){
   suppressWarnings(suppressPackageStartupMessages(
     library(a.package, character.only=TRUE)))
 }
 
-auto.loads <-c("tidyverse","foreach", "doSNOW", "RSelenium", "qdapRegex", "caret", "rDailyFantasy")
+auto.loads <-c("tidyverse","foreach", "doSNOW", "RSelenium", "qdapRegex", "caret", "skimr", "caretEnsemble", "coach", "ROI", "ROI.plugin.glpk", "ompr", "ompr.roi", "rDailyFantasy")
 
 if(interactive()){
   invisible(sapply(auto.loads, sshhh))
@@ -29,18 +30,17 @@ if(interactive()){
 
 #attach(.env,warn.conflicts = F)
 
-suppressMessages(if(interactive()){
-invisible(initCookies <- suppressMessages(rDailyFantasy::labsCookies()))
-invisible(nbaCookies <- initCookies$labs)
-invisible(nflCookies <- initCookies$labs)
-invisible(mlbCookies <- initCookies$labs)
-invisible(pgaCookies <- initCookies$labs)
-invisible(dkCookies <- initCookies$dk)
-invisible(monsterCookies <- suppressMessages(rDailyFantasy::getBBMCookies()))
-})
+#if(interactive()){
+#invisible(initCookies <- rDailyFantasy::labsCookies())
+#invisible(nbaCookies <- initCookies$labs)
+#invisible(nflCookies <- initCookies$labs)
+#invisible(mlbCookies <- initCookies$labs)
+#invisible(pgaCookies <- initCookies$labs)
+#invisible(dkCookies <- initCookies$dk)
+#invisible(monsterCookies <- rDailyFantasy::getBBMCookies())
+#}
 
-message("\n*** Lets makes some fucking money BRO ***\n")
-
+}
 .Last <- function(){
   cat("\n*** Shake N Bake ***\n")
 }

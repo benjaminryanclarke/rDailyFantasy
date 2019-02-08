@@ -98,7 +98,7 @@ nflProjection<-function(modelWeek=6,modelYear=2018,gameSlate="Main",qbModel="qbB
   qbComplete2[qbComplete2$Team == "BAL", "Team"] <- "BLT"
   qbComplete2[qbComplete2$Team == "CLE", "Team"] <- "CLV"
   qbComplete2[qbComplete2$Team == "HOU", "Team"] <- "HST"
-  qbComplete2[qbComplete2$Team == "LA", "Team"] <- "LAR"
+  #qbComplete2[qbComplete2$Team == "LA", "Team"] <- "LAR"
 
   qbComplete2<-qbComplete2 %>% unique()
 
@@ -139,7 +139,7 @@ nflProjection<-function(modelWeek=6,modelYear=2018,gameSlate="Main",qbModel="qbB
   rbComplete2[rbComplete2$Team == "BAL", "Team"] <- "BLT"
   rbComplete2[rbComplete2$Team == "CLE", "Team"] <- "CLV"
   rbComplete2[rbComplete2$Team == "HOU", "Team"] <- "HST"
-  rbComplete2[rbComplete2$Team == "LA", "Team"] <- "LAR"
+  #rbComplete2[rbComplete2$Team == "LA", "Team"] <- "LAR"
 
   rbComplete2<-rbComplete2 %>% unique()
 
@@ -177,7 +177,7 @@ nflProjection<-function(modelWeek=6,modelYear=2018,gameSlate="Main",qbModel="qbB
   wrComplete2[wrComplete2$Team == "BAL", "Team"] <- "BLT"
   wrComplete2[wrComplete2$Team == "CLE", "Team"] <- "CLV"
   wrComplete2[wrComplete2$Team == "HOU", "Team"] <- "HST"
-  wrComplete2[wrComplete2$Team == "LA", "Team"] <- "LAR"
+  #wrComplete2[wrComplete2$Team == "LA", "Team"] <- "LAR"
 
   wrComplete2<-wrComplete2 %>% unique()
 
@@ -217,7 +217,7 @@ nflProjection<-function(modelWeek=6,modelYear=2018,gameSlate="Main",qbModel="qbB
   teComplete2[teComplete2$Team == "BAL", "Team"] <- "BLT"
   teComplete2[teComplete2$Team == "CLE", "Team"] <- "CLV"
   teComplete2[teComplete2$Team == "HOU", "Team"] <- "HST"
-  teComplete2[teComplete2$Team == "LA", "Team"] <- "LAR"
+  #teComplete2[teComplete2$Team == "LA", "Team"] <- "LAR"
 
   teComplete2<-teComplete2 %>% unique()
 
@@ -255,7 +255,7 @@ nflProjection<-function(modelWeek=6,modelYear=2018,gameSlate="Main",qbModel="qbB
   dstComplete2[dstComplete2$Team == "BAL", "Team"] <- "BLT"
   dstComplete2[dstComplete2$Team == "CLE", "Team"] <- "CLV"
   dstComplete2[dstComplete2$Team == "HOU", "Team"] <- "HST"
-  dstComplete2[dstComplete2$Team == "LA", "Team"] <- "LAR"
+  #dstComplete2[dstComplete2$Team == "LA", "Team"] <- "LAR"
 
   dstComplete2<-dstComplete2 %>% unique()
 
@@ -343,7 +343,7 @@ nflProjection<-function(modelWeek=6,modelYear=2018,gameSlate="Main",qbModel="qbB
     setwd("~/rDFS/rDailyFantasy")
 
     pffGradesDf <- pffGrades$team_overview %>% data.frame() %>% select(-name,-franchise_id)
-    names(pffGradesDf)[6]<-c("Team")
+    names(pffGradesDf)[which(names(pffGradesDf)=="abbreviation")]<-c("Team")
 
     pffGradesDfOpp <- pffGradesDf
     names(pffGradesDfOpp)<-gsub("grades.","opp.",names(pffGradesDf))
@@ -488,7 +488,7 @@ nflProjection<-function(modelWeek=6,modelYear=2018,gameSlate="Main",qbModel="qbB
 
 
   fridBind<-dplyr::bind_rows(qbFRId,rbFRId,wrFRId,teFRId,dstFRId)
-  allProjs<-allProjectionsCombined %>% select(Player_Name,pffProj)
+  allProjs<-allProjectionsCombined %>% select(Player_Name,projection)
 
 
   allProjs[,1]<-tolower(allProjs$Player_Name)

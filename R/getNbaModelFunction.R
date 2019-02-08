@@ -6,12 +6,16 @@
 #' @param systemsRefresh 0/1
 #' @param sourceRefresh 0/1
 #' @param cookie nbaCookies
+#' @param sameDay running on sameDay as projections date?
+#' @param algoX xgboostModel
+#' @param treatPlanX xgboost treatplan
+#' @param newVarsX xgboost new_vars
 #'
 #' @return labsPlayerModel
 #' @export
 #'
-#' @examples nbaModelSetup(modelDate="10_16_2018",gameSlate="Main",labModel="2017FirstModel",systemsRefresh=0,sourceRefresh=0,cookie=nbaCookies)
-nbaModelSetup<-function(modelDate="10_16_2018",gameSlate="Main",labModel="2017FirstModel",systemsRefresh=0,sourceRefresh=0,cookie=nbaCookies){
+#' @examples nbaModelSetup(modelDate="10_16_2018",gameSlate="Main",algoX="xgb.actualPoints.big.full.Final",treatPlanX="treatplanBig",newVarsX="new_varsBig",labModel="Money",sameDay=TRUE,systemsRefresh=0,sourceRefresh=0,cookie=nbaCookies)
+nbaModelSetup<-function(modelDate="10_16_2018",gameSlate="Main",algoX="xgb.actualPoints.big.full.Final",treatPlanX="treatplanBig",newVarsX="new_varsBig",labModel="Money",sameDay=TRUE,systemsRefresh=0,sourceRefresh=0,cookie=nbaCookies){
 
   require(foreach,quietly = TRUE,warn.conflicts = F)
   require(doSNOW,quietly = TRUE,warn.conflicts = F)
@@ -23,6 +27,7 @@ nbaModelSetup<-function(modelDate="10_16_2018",gameSlate="Main",labModel="2017Fi
 
   #set homeDirectory
   hmDir<-getwd()
+
 
   #check for cookies data
   if(!exists("nbaCookies")){
@@ -79,6 +84,7 @@ nbaModelSetup<-function(modelDate="10_16_2018",gameSlate="Main",labModel="2017Fi
   #if no sourceData Exists...
   sourceData<-dplyr::if_else(modelDate %in% sourceDataByDate,TRUE,FALSE)
   if(sourceData==FALSE){
+    dir.create(paste0("~/NBA_Daily/sourceData/",mYear),showWarnings = FALSE)
     dir.create(paste0("~/NBA_Daily/sourceData/",mYear,"/",modelDate),showWarnings = FALSE)
     sourceUrl<- paste0("https://www.fantasylabs.com/api/sourcedata/2/",modelDate)
     setwd("~/NBA_Daily/json/")
@@ -87,6 +93,7 @@ nbaModelSetup<-function(modelDate="10_16_2018",gameSlate="Main",labModel="2017Fi
     curlAddress <- paste0("curl -L ",sourceUrl," ",pmCurlHandles3)
     system(curlAddress,ignore.stderr = TRUE)
     sourceDataIn <- jsonlite::fromJSON(y3, flatten = TRUE)
+
     setwd(paste0("~/NBA_Daily/sourceData/",mYear,"/",modelDate))
     fullSourceData<- data.frame(sourceDataIn$ContestGroups,stringsAsFactors = FALSE) %>% dplyr::select(-Events) %>% dplyr::filter(SourceId==4) %>% dplyr::select(-AdminEdit,-IsProjected,-IsPrimary,-IsOpen)
     fullSourceData$ContestSuffix<-dplyr::if_else(fullSourceData$ContestSuffix=="","Main",unlist(qdapRegex::ex_bracket(fullSourceData$ContestSuffix)))
@@ -130,7 +137,7 @@ nbaModelSetup<-function(modelDate="10_16_2018",gameSlate="Main",labModel="2017Fi
   #dkPlayerModel<- dplyr::left_join(dkPlayerModel,allContestGroupsDf,by=c("PlayerId")) %>% dplyr::select(-FantasyResultId,-ContestGroupId,-EventId,-EventTeamId,-SourceId,-IsProjected,-IsLocked,-InLineup,-InjuryStatus,-Watch,-Confirmed,-PositionType,-FullName,-SlateSize,-B2B,-Refs,-Exp_min,-Exp,-MyTrends,-OwnRank_Slate,-ProTrendsPercentile_Slate,-SalaryChangePercentile_Slate,-SiteDiffPercentile_Slate,-VegasPercentile_Slate) %>% tidyr::separate(p_own,into=c("p_own","maxOwn"),sep="-",fill="right") %>% dplyr::select(-maxOwn)
   dkPlayerModel<- dplyr::inner_join(dkPlayerModel,allContestGroupsDf,by=c("PlayerId")) %>% dplyr::select(-SourceId,-IsProjected,-IsLocked,-InLineup,-InjuryStatus,-Watch,-Confirmed,-PositionType,-FullName,-SlateSize,-B2B,-Refs,-Exp_min,-Exp,-MyTrends,-OwnRank_Slate,-ProTrendsPercentile_Slate,-SalaryChangePercentile_Slate,-SiteDiffPercentile_Slate,-VegasPercentile_Slate) %>% tidyr::separate(p_own,into=c("p_own","maxOwn"),sep="-",fill="right") %>% dplyr::select(-maxOwn)
   if("MyTrends|custom" %in% names(dkPlayerModel)){
-    dkPlayerModel <- dkPlayerModel %>% select(-`MyTrends|custom`)
+    dkPlayerModel <- dkPlayerModel %>% dplyr::select(-`MyTrends|custom`)
   }
   dkPlayerModelOwnCheck<-dplyr::if_else(length(dplyr::contains("+",vars = dkPlayerModel$p_own))>0,1,0)
   if(dkPlayerModelOwnCheck==1){
@@ -143,7 +150,7 @@ nbaModelSetup<-function(modelDate="10_16_2018",gameSlate="Main",labModel="2017Fi
   dkPlayerModelMatchupTeamsUrlOrig<-dkPlayerModel$TeamLong %>% unique()
   dkPlayerModelMatchupTeams<-str_replace_all(string=dkPlayerModelMatchupTeamsUrlOrig, pattern=" ", repl="%20")
 
-  playerMatchupLoop<-foreach(j=1:length(dkPlayerModelMatchupTeams)) %do% {
+  playerMatchupLoop<-foreach(j=1:length(dkPlayerModelMatchupTeams),.packages = c("dplyr")) %do% {
   matchupURL <- paste0("https://www.fantasylabs.com/api/matchups/2/team/",dkPlayerModelMatchupTeams[j],"/",mMonth,"-",mDay,"-",mYear)
   setwd("~/NBA_Daily/json/")
   y5 <- paste0(j,"matchup",modelDate,".json")
@@ -153,23 +160,116 @@ nbaModelSetup<-function(modelDate="10_16_2018",gameSlate="Main",labModel="2017Fi
   system(curlAddress,ignore.stderr = TRUE)
   #read in json Model to parse
   nbaMatchup <- jsonlite::fromJSON(y5)
-  nbaMatchupNums<-nbaMatchup$PlayerMatchups$Properties %>% select(-HasNews,-NewsItem,-EventId,-EventTeamId)#%>% rDailyFantasy::numericOnly() #%>% select(-DateId,-EventId,-EventTeamId,-DateId_RnkPct,-EventId_RnkPct,-EventTeamId_RnkPct)
+  nbaMatchupNums<-nbaMatchup$PlayerMatchups$Properties %>% dplyr::select(-HasNews,-NewsItem,-EventId,-EventTeamId)#%>% rDailyFantasy::numericOnly() #%>% select(-DateId,-EventId,-EventTeamId,-DateId_RnkPct,-EventId_RnkPct,-EventTeamId_RnkPct)
   return(nbaMatchupNums)
   }
-  fullPlayerMatchup<-bind_rows(playerMatchupLoop[]) %>% dplyr::select(-Team)
+
+  fullPlayerMatchup<-dplyr::bind_rows(playerMatchupLoop[]) %>% dplyr::select(-Team) %>% unique() %>% dplyr::filter(!is.na(Salary_DK))
 
   #joinPlayerModel with PlayerMatchup
 
   #dkPlayerModelFull<-left_join(dkPlayerModel,fullPlayerMatchup,by="PlayerId") %>% unique() %>% dplyr::filter(!is.na(ContestSuffix))
-  dkPlayerModelFull<-inner_join(dkPlayerModel,fullPlayerMatchup,by="PlayerId") %>% unique() %>% dplyr::filter(!is.na(ContestSuffix))
+  dkPlayerModelFull<-dplyr::inner_join(dkPlayerModel,fullPlayerMatchup,by="PlayerId") %>% unique() %>% dplyr::filter(!is.na(ContestSuffix))
+
+  nbaLeveragePreProc<-rDailyFantasy::loadRData(paste0("~/NBA_Daily/machineLearning/preProcessing/","nbaLeveragePreProc",".rda"))
+  nbaLevcubist<-rDailyFantasy::loadRData(paste0("~/NBA_Daily/machineLearning/algos/","nbaLevcubist",".rda"))
+
+  dkPlayerModelFullLevPre<-predict(nbaLeveragePreProc,dkPlayerModelFull)
+  dkPMFLevPred<-predict(nbaLevcubist,dkPlayerModelFullLevPre)
+
+  dkPlayerModelFull<-dkPlayerModelFull %>% dplyr::mutate("LeveragePct"=round(dkPMFLevPred,2))
+
+  naMatchupFixOff<- mean(dkPlayerModelFull$Off_FLPlusMinus_DK[!is.na(dkPlayerModelFull$Off_FLPlusMinus_DK)])
+  naMatchupFixDef<- mean(dkPlayerModelFull$Def_FLPlusMinus_DK[!is.na(dkPlayerModelFull$Def_FLPlusMinus_DK)])
+  dkPlayerModelFull$Off_FLPlusMinus_DK <- rDailyFantasy::na.What(dkPlayerModelFull$Off_FLPlusMinus_DK,what = naMatchupFixOff)
+  dkPlayerModelFull$Def_FLPlusMinus_DK <- rDailyFantasy::na.What(dkPlayerModelFull$Def_FLPlusMinus_DK,what = naMatchupFixDef)
+  plusMinusMatchup<-dkPlayerModelFull$Off_FLPlusMinus_DK+dkPlayerModelFull$Def_FLPlusMinus_DK
+  dkPlayerModelFull<-dkPlayerModelFull %>% dplyr::mutate("plusMinusMatchup"=plusMinusMatchup)
+
+  ###xgbData
+  #actualPoints
+  treatplanBig<-rDailyFantasy::loadRData(paste0("~/NBA_Daily/machineLearning/vTreat/",treatPlanX,".rda"))
+  new_varsBig<-rDailyFantasy::loadRData(paste0("~/NBA_Daily/machineLearning/vTreat/",newVarsX,".rda"))
+  xgb.actualPoints.big.full.final<-rDailyFantasy::loadRData(paste0("~/NBA_Daily/machineLearning/algos/",algoX,".rda"))
+
+  suppressWarnings(nbaPlayerModelDMat<-vtreat::prepare(treatplanBig, dkPlayerModelFull, varRestriction=new_varsBig) %>% as.matrix())
+  predPoints<-predict(xgb.actualPoints.big.full.final,nbaPlayerModelDMat)
+
+  ##gppGradexgb
+  treatplanGpp<-rDailyFantasy::loadRData(paste0("~/NBA_Daily/ownership/","treatplanGpp",".rda"))
+  new_varsGpp<-rDailyFantasy::loadRData(paste0("~/NBA_Daily/ownership/","new_varsGpp",".rda"))
+  xgb.gppGrade.final<-rDailyFantasy::loadRData(paste0("~/NBA_Daily/ownership/","xgb.gppGrade.final",".rda"))
+
+  suppressWarnings(nbaPlayerModelDMatGpp<-vtreat::prepare(treatplanGpp, dkPlayerModelFull, varRestriction=new_varsGpp) %>% as.matrix())
+
+  gppGradePred<-predict(xgb.gppGrade.final,nbaPlayerModelDMatGpp)
+
+  ##ownershipxgb
+  treatplanOwn<-rDailyFantasy::loadRData(paste0("~/NBA_Daily/ownership/","treatplanOwn",".rda"))
+  new_varsOwn<-rDailyFantasy::loadRData(paste0("~/NBA_Daily/ownership/","new_varsOwn",".rda"))
+  xgb.ownership.final<-rDailyFantasy::loadRData(paste0("~/NBA_Daily/ownership/","xgb.ownership.final",".rda"))
+
+  suppressWarnings(nbaPlayerModelDMatOwn<-vtreat::prepare(treatplanOwn, dkPlayerModelFull, varRestriction=new_varsOwn) %>% as.matrix())
+
+  ownershipPred<-predict(xgb.ownership.final,nbaPlayerModelDMatOwn)
+
+  dkPlayerModelFull<-dkPlayerModelFull %>% dplyr::mutate("xgbProj"=predPoints,"gppGradeProj"=gppGradePred,"ownershipProj"=ownershipPred) %>% dplyr::filter(!is.na(Salary_DK))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  #dkPlayerModelFull2<-inner_join(dkPlayerModelFull,bbmModelXLS,by=c("Player_Name"="Name"))
+
+
+  ###get actual gppGrades and ownersahip data post contest
+
+
+  if(sameDay!=TRUE){
+    dkPlayerModelFull<-dkPlayerModelFull %>% dplyr::filter(!is.na(ActualPoints),ActualPoints>0)
+    actualPlusMinus<-dkPlayerModelFull$ActualPoints-(dkPlayerModelFull$Salary/1000*4)
+    actualValue<-dkPlayerModelFull$Salary/dkPlayerModelFull$ActualPoints
+    dkPlayerModelFull<- dkPlayerModelFull %>% dplyr::mutate("actualPlusMinus"=actualPlusMinus,"ActualValue"=actualValue)
+
+    #postData<-rDailyFantasy::nbaOwn(modelDate = modelDate,cookies = cookie)
+    postData<-nbaOwn(modelDate = modelDate,cookies = cookie)
+    postData<-postData %>% dplyr::select(PlayerId,GppGrade,Average) %>% data.frame()
+    dkPlayerModelFull<-dplyr::inner_join(dkPlayerModelFull,postData,by="PlayerId")
+  }
+
+  #inLineupxgb
+  treatplaninLineup<-rDailyFantasy::loadRData(paste0("~/NBA_Daily/ownership/","treatplaninLineup",".rda"))
+  new_varsinLineup<-rDailyFantasy::loadRData(paste0("~/NBA_Daily/ownership/","new_varsinLineup",".rda"))
+  xgb.inLineup.final<-rDailyFantasy::loadRData(paste0("~/NBA_Daily/ownership/","xgb.inLineup.final",".rda"))
+
+  suppressWarnings(nbaPlayerModelDMatinLineup<-vtreat::prepare(treatplaninLineup, dkPlayerModelFull, varRestriction=new_varsinLineup) %>% as.matrix())
+
+  inLineupPred<-as.numeric(predict(xgb.inLineup.final,nbaPlayerModelDMatinLineup) > 0.5)
+
+
+  dkPlayerModelFull<-dkPlayerModelFull %>% dplyr::mutate("inLineup"=inLineupPred)
+
 
   #nestedPlayerModel by slateName/ContestGroupId
   dkPlayerModelNested<-dkPlayerModelFull %>% dplyr::group_by(ContestSuffix) %>% tidyr::nest()
   #create and write dataFile to NBA_Daily dataSets directory
   #suppressMessages(system(command = paste0("cd ~/NBA_Daily/dataSets/",mYear,"/",modelDate,"/ && rm -rf *")))
 
-  dkPlayerModelSaving<-foreach::foreach(i=1:nrow(dkPlayerModelNested)) %do% {
-    dkModelSave<-tidyr::unnest(dkPlayerModelNested[i,]) %>% dplyr::ungroup() %>% data.frame()
+
+
+  dkPlayerModelSaving<-foreach::foreach(i=1:nrow(dkPlayerModelNested),.packages = c("dplyr")) %do% {
+    dkModelSave<-tidyr::unnest(dkPlayerModelNested[i,]) %>% dplyr::ungroup() %>% data.frame() %>% unique()
     modelYearPath<-paste0("~/NBA_Daily/dataSets/",mYear)
     modelDatePath<-paste0(modelYearPath,"/",modelDate)
     suffixPath<-paste0(modelDatePath,"/",dkPlayerModelNested[i,]$ContestSuffix)
@@ -179,13 +279,16 @@ nbaModelSetup<-function(modelDate="10_16_2018",gameSlate="Main",labModel="2017Fi
     write.csv(dkModelSave,file = paste0(suffixPath,"/stats.csv"))
   }
   suppressMessages(system(command = "cd ~/NBA_Daily/json/ && rm -rf *"))
+
+
   setwd(hmDir)
 
 
+  dkPlayerModelFull[,names(dkPlayerModelFull[,sapply(dkPlayerModelFull,is.logical)])]<-na.What(sapply(dkPlayerModelFull[,names(dkPlayerModelFull[,sapply(dkPlayerModelFull,is.logical)])],as.numeric))
 
-  return(dkPlayerModelFull %>% dplyr::filter(ContestSuffix==gameSlate) %>% select(-ContestSuffix) %>% unique())
+
+  return(suppressMessages(dkPlayerModelFull %>% dplyr::filter(ContestSuffix==gameSlate) %>% dplyr::select(-ContestSuffix) %>% unique()))
 }
-
 
 
 

@@ -41,9 +41,9 @@ nflResults<-function(modelYear=2018,modelWeek=7){
 
   foreach(i=1:nrow(joined)) %do% {
     dir.create(path=paste0("~/NFL_Daily/results/",mYear),showWarnings = F)
-    dir.create(path=paste0("~/NFL_Daily/results/",mYear,"/",modelDate),showWarnings = F)
-    dir.create(path=paste0("~/NFL_Daily/results/",mYear,"/",modelDate,"/",joined[i,3]),showWarnings = F)
-    setwd(paste0("~/NFL_Daily/results/",mYear,"/",modelDate,"/",joined[i,3]))
+    dir.create(path=paste0("~/NFL_Daily/results/",mYear,"/",modelWeek),showWarnings = F)
+    dir.create(path=paste0("~/NFL_Daily/results/",mYear,"/",modelWeek,"/",joined[i,3]),showWarnings = F)
+    setwd(paste0("~/NFL_Daily/results/",mYear,"/",modelWeek,"/",joined[i,3]))
     system(command=paste0("curl https://resultsdb-api.rotogrinders.com/api/slates/",joined[i,1],"/summary -o results.json"))
     jsonIn<-jsonlite::fromJSON(file("results.json"))
     listRet<-list(bestLineUp=jsonIn$topScoringEntry$lineup$summary,gppAverage=jsonIn$gppAverage,cashAverage=jsonIn$cashAverage,best=jsonIn$topEntry$fpts %>% sum())

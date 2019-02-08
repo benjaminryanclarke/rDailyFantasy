@@ -210,11 +210,16 @@ nflModelSetup<-function(modelWeek=1,modelYear=2018,pastEvent=TRUE,labModel="2018
   dstVarsDupl<-dstVariableNames[dstVariableNames %in% names(playerMatchupIn)]
 
 
-  qbMatchupModelBig<-playerMatchupIn %>% dplyr::filter(PositionType=="qb-1") %>% select(-qbVarsDupl) %>% mutate(ActualPoints_DK_RnkPct=NA,ActualPoints_DK_Rnk=NA,TourneyOwnership_DK_RnkPct=NA,TourneyOwnership_DK_Rnk=NA,t_own_DK_RnkPct=NA,t_own_DK_Rnk=NA)
-  rbMatchupModelBig<-playerMatchupIn %>% dplyr::filter(PositionType=="rb-1" | PositionType=="rb-2") %>% select(-rbVarsDupl) %>% mutate(ActualPoints_DK_RnkPct=NA,ActualPoints_DK_Rnk=NA,TourneyOwnership_DK_RnkPct=NA,TourneyOwnership_DK_Rnk=NA,t_own_DK_RnkPct=NA,t_own_DK_Rnk=NA)
-  wrMatchupModelBig<-playerMatchupIn %>% dplyr::filter(PositionType=="wr-1" | PositionType=="wr-2" | PositionType=="wr-3") %>% select(-wrVarsDupl) %>% mutate(ActualPoints_DK_RnkPct=NA,ActualPoints_DK_Rnk=NA,TourneyOwnership_DK_RnkPct=NA,TourneyOwnership_DK_Rnk=NA,t_own_DK_RnkPct=NA,t_own_DK_Rnk=NA)
-  teMatchupModelBig<-playerMatchupIn %>% dplyr::filter(PositionType=="te-1") %>% select(-teVarsDupl) %>% mutate(ActualPoints_DK_RnkPct=NA,ActualPoints_DK_Rnk=NA,TourneyOwnership_DK_RnkPct=NA,TourneyOwnership_DK_Rnk=NA,t_own_DK_RnkPct=NA,t_own_DK_Rnk=NA)
-  dstMatchupModelBig<-playerMatchupIn %>% dplyr::filter(is.na(PositionType)) %>% select(-dstVarsDupl) %>% mutate(ActualPoints_DK_RnkPct=NA,ActualPoints_DK_Rnk=NA,TourneyOwnership_DK_RnkPct=NA,TourneyOwnership_DK_Rnk=NA,t_own_DK_RnkPct=NA,t_own_DK_Rnk=NA)
+  #qbMatchupModelBig<-playerMatchupIn %>% dplyr::filter(PositionType=="qb-1") %>% select(-qbVarsDupl) %>% mutate(ActualPoints_DK_RnkPct=NA,ActualPoints_DK_Rnk=NA,TourneyOwnership_DK_RnkPct=NA,TourneyOwnership_DK_Rnk=NA,t_own_DK_RnkPct=NA,t_own_DK_Rnk=NA)
+  qbMatchupModelBig<-playerMatchupIn %>% dplyr::filter(PositionType=="qb-1") %>% mutate(ActualPoints_DK_RnkPct=NA,ActualPoints_DK_Rnk=NA,TourneyOwnership_DK_RnkPct=NA,TourneyOwnership_DK_Rnk=NA,t_own_DK_RnkPct=NA,t_own_DK_Rnk=NA)
+  rbMatchupModelBig<-playerMatchupIn %>% dplyr::filter(PositionType=="rb-1" | PositionType=="rb-2") %>% mutate(ActualPoints_DK_RnkPct=NA,ActualPoints_DK_Rnk=NA,TourneyOwnership_DK_RnkPct=NA,TourneyOwnership_DK_Rnk=NA,t_own_DK_RnkPct=NA,t_own_DK_Rnk=NA)
+  #rbMatchupModelBig<-playerMatchupIn %>% dplyr::filter(PositionType=="rb-1" | PositionType=="rb-2") %>% select(-rbVarsDupl) %>% mutate(ActualPoints_DK_RnkPct=NA,ActualPoints_DK_Rnk=NA,TourneyOwnership_DK_RnkPct=NA,TourneyOwnership_DK_Rnk=NA,t_own_DK_RnkPct=NA,t_own_DK_Rnk=NA)
+  wrMatchupModelBig<-playerMatchupIn %>% dplyr::filter(PositionType=="wr-1" | PositionType=="wr-2" | PositionType=="wr-3") %>% mutate(ActualPoints_DK_RnkPct=NA,ActualPoints_DK_Rnk=NA,TourneyOwnership_DK_RnkPct=NA,TourneyOwnership_DK_Rnk=NA,t_own_DK_RnkPct=NA,t_own_DK_Rnk=NA)
+  #wrMatchupModelBig<-playerMatchupIn %>% dplyr::filter(PositionType=="wr-1" | PositionType=="wr-2" | PositionType=="wr-3") %>% select(-wrVarsDupl) %>% mutate(ActualPoints_DK_RnkPct=NA,ActualPoints_DK_Rnk=NA,TourneyOwnership_DK_RnkPct=NA,TourneyOwnership_DK_Rnk=NA,t_own_DK_RnkPct=NA,t_own_DK_Rnk=NA)
+  teMatchupModelBig<-playerMatchupIn %>% dplyr::filter(PositionType=="te-1") %>% mutate(ActualPoints_DK_RnkPct=NA,ActualPoints_DK_Rnk=NA,TourneyOwnership_DK_RnkPct=NA,TourneyOwnership_DK_Rnk=NA,t_own_DK_RnkPct=NA,t_own_DK_Rnk=NA)
+  #teMatchupModelBig<-playerMatchupIn %>% dplyr::filter(PositionType=="te-1") %>% select(-teVarsDupl) %>% mutate(ActualPoints_DK_RnkPct=NA,ActualPoints_DK_Rnk=NA,TourneyOwnership_DK_RnkPct=NA,TourneyOwnership_DK_Rnk=NA,t_own_DK_RnkPct=NA,t_own_DK_Rnk=NA)
+  #dstMatchupModelBig<-playerMatchupIn %>% dplyr::filter(is.na(PositionType)) %>% select(-dstVarsDupl) %>% mutate(ActualPoints_DK_RnkPct=NA,ActualPoints_DK_Rnk=NA,TourneyOwnership_DK_RnkPct=NA,TourneyOwnership_DK_Rnk=NA,t_own_DK_RnkPct=NA,t_own_DK_Rnk=NA)
+  dstMatchupModelBig<-playerMatchupIn %>% dplyr::filter(is.na(PositionType)) %>% mutate(ActualPoints_DK_RnkPct=NA,ActualPoints_DK_Rnk=NA,TourneyOwnership_DK_RnkPct=NA,TourneyOwnership_DK_Rnk=NA,t_own_DK_RnkPct=NA,t_own_DK_Rnk=NA)
 
 
 

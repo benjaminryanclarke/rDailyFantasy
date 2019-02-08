@@ -4,10 +4,12 @@
 \alias{nbaOptimizer}
 \title{nbaOptimizerFunction}
 \usage{
-nbaOptimizer(modelDate = "11_10_2018", gameSlate = "Main",
-  sameDay = TRUE, lineUps = 200L, bans = NULL, locks = c(""),
-  saveNameAdd = "zeroRussellAndFlow", cookie = nbaCookies,
-  dCookies = dkCookies)
+nbaOptimizer(modelDate = "11_15_2018", gameSlate = "Main",
+  sameDay = TRUE, projectionSrc = "xgb", optModel = "optTrainranger",
+  lineUps = 200L, bans = NULL, locks = c(""),
+  nbaModel = "nbaranger2", labModel = "Money",
+  zeroOwnModel = "nbaZeroOwngbmnba", labZeroModel = "Contrarians",
+  cookie = nbaCookies, dCookies = dkCookies)
 }
 \arguments{
 \item{modelDate}{date}
@@ -16,13 +18,23 @@ nbaOptimizer(modelDate = "11_10_2018", gameSlate = "Main",
 
 \item{sameDay}{optimizing for same day as running function? T/F}
 
+\item{projectionSrc}{x("xgb","cubist")}
+
+\item{optModel}{regression proj model for lineups overall}
+
 \item{lineUps}{#lineups}
 
 \item{bans}{exclude}
 
 \item{locks}{include}
 
-\item{saveNameAdd}{russellAndFlow}
+\item{nbaModel}{nbaranger2}
+
+\item{labModel}{Money}
+
+\item{zeroOwnModel}{"nbaZeroOwngbmnba"}
+
+\item{labZeroModel}{"Contrarians"}
 
 \item{cookie}{fantasyLabs Cookies}
 
@@ -35,5 +47,5 @@ lineups
 nbaOptimizerFunction
 }
 \examples{
-nbaOptimizer(modelDate="11_10_2018",gameSlate="Main",sameDay=TRUE,lineUps=200L,bans=NULL,locks=c(""),saveNameAdd="zeroRussellAndFlow",cookie=nbaCookies,dCookies=dkCookies)
+nbaOptimizer(modelDate="11_10_2018",gameSlate="Main",sameDay=TRUE,optModel="optTrainranger",lineUps=200L,bans=NULL,locks=c(""),saveNameAdd="zeroRussellAndFlow",cookie=nbaCookies,dCookies=dkCookies)
 }

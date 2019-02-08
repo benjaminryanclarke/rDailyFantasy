@@ -5,15 +5,25 @@
 \title{NBA Player Model Retrieval Function}
 \usage{
 nbaModelSetup(modelDate = "10_16_2018", gameSlate = "Main",
-  labModel = "2017FirstModel", systemsRefresh = 0, sourceRefresh = 0,
-  cookie = nbaCookies)
+  algoX = "xgb.actualPoints.big.full.Final",
+  treatPlanX = "treatplanBig", newVarsX = "new_varsBig",
+  labModel = "Money", sameDay = TRUE, systemsRefresh = 0,
+  sourceRefresh = 0, cookie = nbaCookies)
 }
 \arguments{
 \item{modelDate}{"10_16_2018"}
 
 \item{gameSlate}{"Main"}
 
+\item{algoX}{xgboostModel}
+
+\item{treatPlanX}{xgboost treatplan}
+
+\item{newVarsX}{xgboost new_vars}
+
 \item{labModel}{"2017FirstModel}
+
+\item{sameDay}{running on sameDay as projections date?}
 
 \item{systemsRefresh}{0/1}
 
@@ -28,5 +38,5 @@ labsPlayerModel
 NBA Player Model Retrieval Function
 }
 \examples{
-nbaModelSetup(modelDate="10_16_2018",gameSlate="Main",labModel="2017FirstModel",systemsRefresh=0,sourceRefresh=0,cookie=nbaCookies)
+nbaModelSetup(modelDate="10_16_2018",gameSlate="Main",algoX="xgb.actualPoints.big.full.Final",treatPlanX="treatplanBig",newVarsX="new_varsBig",labModel="Money",sameDay=TRUE,systemsRefresh=0,sourceRefresh=0,cookie=nbaCookies)
 }
